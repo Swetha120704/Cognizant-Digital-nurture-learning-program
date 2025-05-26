@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Feedback</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f0f0f0;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 500px;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #fee {
+      margin-top: 0.5rem;
+      font-style: italic;
+      color: #007BFF;
+    }
+
+    #charCount {
+      font-size: 0.9rem;
+      color: gray;
+      margin-top: 0.2rem;
+    }
+
+    #eventImage {
+      margin-top: 2rem;
+      width: 200px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    #eventImage.enlarged {
+      transform: scale(1.8);
+    }
+
+    #confirmation {
+      margin-top: 1rem;
+      color: green;
+      font-weight: bold;
+    }
+
+    #phoneError {
+      color: red;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Event Feedback Form</h2>
+
+  <form id="feedbackForm">
+    <label for="phone">Phone Number:</label>
+    <input type="text" id="phone" placeholder="e.g. 9876543210" onblur="validatePhone()">
+    <div id="phoneError"></div>
+
+    <label for="eventType">Select Event:</label>
+    <select id="eventType" onchange="showFee()">
+      <option value="">-- Choose Event --</option>
+      <option value="Music Night">Music Night</option>
+      <option value="Art Workshop">Art Workshop</option>
+      <option value="Food Festival">Food Festival</option>
+    </select>
+    <div id="fee"></div>
+
+    <label for="feedback">Your Feedback:</label>
+    <textarea id="feedback" rows="4" placeholder="Type your feedback..." onkeydown="countCharacters()"></textarea>
+    <div id="charCount">Characters: 0</div>
+
+    <button type="button" onclick="submitFeedback()">Submit Feedback</button>
+    <div id="confirmation"></div>
+  </form>
+
+  <img src="event.jpg" alt="Event" id="eventImage" title="Double-click to enlarge" ondblclick="enlargeImage()">
+
+  <script>
+    function validatePhone() {
+      const phone = document.getElementById('phone').value;
+      const error = document.getElementById('phoneError');
+      const phoneRegex = /^[6-9]\d{9}$/;
+      if (!phoneRegex.test(phone)) {
+        error.textContent = 'Please enter a valid 10-digit Indian phone number starting with 6-9.';
+      } else {
+        error.textContent = '';
+      }
+    }
+
+    function showFee() {
+      const event = document.getElementById('eventType').value;
+      const feeDisplay = document.getElementById('fee');
+      let fee = '';
+
+      switch (event) {
+        case 'Music Night':
+          fee = '₹200';
+          break;
+        case 'Art Workshop':
+          fee = '₹150';
+          break;
+        case 'Food Festival':
+          fee = '₹100';
+          break;
+        default:
+          fee = '';
+      }
+
+      feeDisplay.textContent = fee ? `Fee: ${fee}` : '';
+    }
+
+    function countCharacters() {
+      const feedback = document.getElementById('feedback').value;
+      document.getElementById('charCount').textContent = `Characters: ${feedback.length}`;
+    }
+
+    function submitFeedback() {
+      const phone = document.getElementById('phone').value;
+      const feedback = document.getElementById('feedback').value;
+      const error = document.getElementById('phoneError');
+      const confirmation = document.getElementById('confirmation');
+
+      if (error.textContent === '' && phone && feedback) {
+        confirmation.textContent = 'Thank you! Your feedback has been submitted.';
+      } else {
+        confirmation.textContent = 'Please complete all fields correctly before submitting.';
+      }
+    }
+
+    function enlargeImage() {
+      const img = document.getElementById('eventImage');
+      img.classList.toggle('enlarged');
+    }
+  </script>
+
+</body>
+</html>
