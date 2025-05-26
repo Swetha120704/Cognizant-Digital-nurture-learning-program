@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Debugging Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+    }
+
+    .debug-box {
+      width: 200px;
+      height: 100px;
+      background-color: #ffcccc;
+      text-align: center;
+      padding: 1rem;
+      border: 2px solid red;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Debugging with Chrome DevTools</h2>
+
+  <div class="debug-box" id="box">
+    Debug Me!
+  </div>
+
+  <button onclick="changeStyle()">Change Style</button>
+
+  <script>
+    console.log("Script loaded successfully!");
+
+    function changeStyle() {
+      console.log("Button clicked. Preparing to change style...");
+
+      // Use breakpoints here in DevTools to watch these variable values
+      let box = document.getElementById("box");
+      let currentColor = box.style.backgroundColor;
+      console.log("Current background color:", currentColor);
+
+      // Toggle background color
+      if (currentColor === "lightgreen") {
+        box.style.backgroundColor = "lightcoral";
+      } else {
+        box.style.backgroundColor = "lightgreen";
+      }
+
+      console.log("Background color changed.");
+    }
+  </script>
+
+</body>
+</html>
