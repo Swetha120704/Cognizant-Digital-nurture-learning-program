@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Feedback</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+
+    input, select, textarea {
+      width: 300px;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    #eventImage {
+      margin-top: 1rem;
+      width: 200px;
+      transition: all 0.3s ease;
+      border: 2px solid #ccc;
+      cursor: pointer;
+    }
+
+    #eventImage.enlarged {
+      width: 400px;
+    }
+
+    #charCount {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    #confirmation {
+      color: green;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    #feeDisplay {
+      margin-top: 0.5rem;
+      color: blue;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Event Feedback Form</h2>
+
+  <form onsubmit="return handleSubmit()">
+    <!-- Phone number with blur validation -->
+    <label for="phone">Phone Number:</label>
+    <input type="text" id="phone" onblur="validatePhone()" placeholder="Enter 10-digit number" required>
+    <div id="phoneError" style="color:red;"></div>
+
+    <!-- Dropdown for event types -->
+    <label for="eventType">Select Event:</label>
+    <select id="eventType" onchange="showFee()">
+      <option value="">--Choose--</option>
+      <option value="Music">Music</option>
+      <option value="Tech">Technology</option>
+      <option value="Art">Art</option>
+    </select>
+    <div id="feeDisplay"></div>
+
+    <!-- Feedback textarea with character count -->
+    <label for="feedback">Your Feedback:</label>
+    <textarea id="feedback" rows="4" onkeyup="countCharacters()" placeholder="Type your feedback here..."></textarea>
+    <div id="charCount">Characters: 0</div>
+
+    <!-- Submit button -->
+    <button type="submit">Submit Feedback</button>
+    <div id="confirmation"></div>
+  </form>
+
+  <!-- Image with double-click enlargement -->
+  <h3>Event Poster (Double-click to Enlarge)</h3>
+  <img id="eventImage" src="https://via.placeholder.com/200" alt="Event Poster" ondblclick="enlargeImage()" title="Double-click to enlarge">
+
+  <script>
+    function validatePhone() {
+      const phone = document.getElementById("phone").value;
+      const errorDiv = document.getElementById("phoneError");
+
+      const isValid = /^\d{10}$/.test(phone);
+      if (!isValid) {
+        errorDiv.textContent = "Phone number must be 10 digits.";
+      } else {
+        errorDiv.textContent = "";
+      }
+    }
+
+    function showFee() {
+      const event = document.getElementById("eventType").value;
+      const feeDisplay = document.getElementById("feeDisplay");
+      let fee = "";
+
+      switch (event) {
+        case "Music": fee = "$30"; break;
+        case "Tech": fee = "$50"; break;
+        case "Art": fee = "$25"; break;
+        default: fee = "";
+      }
+
+      feeDisplay.textContent = fee ? `Event Fee: ${fee}` : "";
+    }
+
+    function handleSubmit() {
+      const confirmation = document.getElementById("confirmation");
+      confirmation.textContent = "✅ Thank you for your feedback!";
+      return false; // prevent actual form submission for demo
+    }
+
+    function enlargeImage() {
+      const img = document.getElementById("eventImage");
+      img.classList.toggle("enlarged");
+    }
+
+    function countCharacters() {
+      const feedback = document.getElementById("feedback").value;
+      document.getElementById("charCount").textContent = "Characters: " + feedback.length;
+    }
+  </script>
+
+</body>
+</html>
